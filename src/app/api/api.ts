@@ -122,10 +122,10 @@ export interface AvailableProduct {
 export interface Customer {
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof Customer
      */
-    customerId: string;
+    customerId: number;
     /**
      * 
      * @type {string}
@@ -232,22 +232,28 @@ export type ExistingReceipts = Array<ExistingReceipt>
 export interface NewReceipt {
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof NewReceipt
      */
-    customerId?: string;
+    customerId?: number;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof NewReceipt
      */
-    employeeId: string;
+    employeeId: number;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof NewReceipt
      */
-    deliveryShopId?: string;
+    deliveryShopId?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof NewReceipt
+     */
+    discountTotal: number;
     /**
      * 
      * @type {Array<ReceiptPosition>}
@@ -472,7 +478,7 @@ export const PosApiFetchParamCreator = function (configuration?: Configuration) 
             if (body === null || body === undefined) {
                 throw new RequiredError('body', 'Required parameter body was null or undefined when calling createReceipt.');
             }
-            const localVarPath = `/pos/receipt`;
+            const localVarPath = `/pos/receipts`;
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions = Object.assign({ method: 'POST' }, options);
             const localVarHeaderParameter = {} as any;
@@ -509,7 +515,7 @@ export const PosApiFetchParamCreator = function (configuration?: Configuration) 
             if (receiptId === null || receiptId === undefined) {
                 throw new RequiredError('receiptId', 'Required parameter receiptId was null or undefined when calling createReceiptReturnOrder.');
             }
-            const localVarPath = `/pos/receipt/{receiptId}/return`
+            const localVarPath = `/pos/receipts/{receiptId}/return`
                 .replace(`{${"receiptId"}}`, encodeURIComponent(String(receiptId)));
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions = Object.assign({ method: 'POST' }, options);
@@ -542,7 +548,7 @@ export const PosApiFetchParamCreator = function (configuration?: Configuration) 
             if (customerId === null || customerId === undefined) {
                 throw new RequiredError('customerId', 'Required parameter customerId was null or undefined when calling getCustomer.');
             }
-            const localVarPath = `/pos/customer/{customerId}`
+            const localVarPath = `/pos/customers/{customerId}`
                 .replace(`{${"customerId"}}`, encodeURIComponent(String(customerId)));
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
