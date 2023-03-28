@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { Route, RouteComponentProps, Switch, useLocation } from 'react-router-dom';
-import { Dashboard } from '@app/Dashboard/Dashboard';
-import { Support } from '@app/Support/Support';
 import { GeneralSettings } from '@app/Settings/General/GeneralSettings';
 import { ProfileSettings } from '@app/Settings/Profile/ProfileSettings';
 import { NotFound } from '@app/NotFound/NotFound';
 import { useDocumentTitle } from '@app/utils/useDocumentTitle';
+import { Checkout } from './Checkout/Checkouts';
 
 let routeFocusTimer: number;
 export interface IAppRoute {
@@ -28,11 +27,11 @@ export type AppRouteConfig = IAppRoute | IAppRouteGroup;
 
 const routes: AppRouteConfig[] = [
   {
-    component: Dashboard,
+    component: Checkout,
     exact: true,
-    label: 'Dashboard',
+    label: 'Checkout',
     path: '/',
-    title: 'PatternFly Seed | Main Dashboard',
+    title: 'Checkout',
   },
   {
     label: 'Settings',

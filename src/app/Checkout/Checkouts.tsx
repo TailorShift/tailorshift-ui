@@ -6,7 +6,7 @@ import { PosApi, Configuration } from '@app/api';
 import { CustomerPane } from './components/CustomerPane';
 import { TimesIcon, TrashIcon } from '@patternfly/react-icons';
 
-const Dashboard: React.FunctionComponent = () => {
+const Checkout: React.FunctionComponent = () => {
   const [reset, doReset] = React.useState(0);
   const [product, setProduct] = React.useState();
   const [cartItems, setCartItems] = React.useState([]);
@@ -78,4 +78,4 @@ const Dashboard: React.FunctionComponent = () => {
   </PageSection>
 }
 
-export { Dashboard };
+export { Checkout };
