@@ -8,7 +8,7 @@ interface ProductCardProps {
 export const ProductCard: React.FunctionComponent<ProductCardProps> = ({ product, addCartItem }) => {
     if (product.available.length > 0) {
         return product.available.map(item =>
-            <Card className='ts--card' key={item.color + item.size + item.quantity}>
+            <Card className='ts--card ts--card--400' key={item.color + item.size + item.quantity}>
                 <CardTitle>{product.name} ({product.manufacturer})</CardTitle>
                 <CardBody>
                     Color: {item.color} <br />
@@ -17,7 +17,7 @@ export const ProductCard: React.FunctionComponent<ProductCardProps> = ({ product
                 </CardBody>
                 <CardFooter className='ts--card--price'>
                     <Button variant="secondary" isSmall onClick={() => { addCartItem(product, item) }}>
-                        ${product.price} (+{product.taxRate}%)
+                        ${product.price}
                     </Button></CardFooter>
             </Card>
         )
@@ -31,7 +31,7 @@ export const ProductCard: React.FunctionComponent<ProductCardProps> = ({ product
             </CardBody>
             <CardFooter className='ts--card--price'>
                 <Button variant="secondary" isSmall isDisabled>
-                    ${product.price} (+{product.taxRate}%)
+                    ${product.price}
                 </Button>
             </CardFooter>
         </Card>

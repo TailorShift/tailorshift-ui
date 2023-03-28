@@ -3,7 +3,7 @@ import { SearchInput, Alert, Gallery, Title } from '@patternfly/react-core';
 import { ProductCard } from './ProductCard';
 
 const ProductSearch: React.FunctionComponent = ({ apiClient, product, setProduct, addCartItem }) => {
-    const BASE_URL = 'http://localhost:8080';
+
     const [productId, setProductId] = React.useState('');
     const [error, setError] = React.useState<Response | null>(null);
 
@@ -24,7 +24,7 @@ const ProductSearch: React.FunctionComponent = ({ apiClient, product, setProduct
         <>
             <Title headingLevel="h1" size="lg">Add products</Title>
             <SearchInput
-                placeholder="Find by ID"
+                placeholder="Scan products"
                 value={productId}
                 onChange={(value, _event) => onChange(value)}
                 onSearch={(value, _event) => search()}

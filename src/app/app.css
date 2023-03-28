@@ -27,6 +27,10 @@ body,
 }
 
 .ts--card {
+  width: 100%;
+}
+
+.ts--card--400 {
   max-width: 400px;
 }
 
