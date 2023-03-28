@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { SearchInput, Alert, Gallery, Title, Card, CardTitle, CardBody } from '@patternfly/react-core';
-import { ProductCard } from './ProductCard';
 
 const CustomerPane: React.FunctionComponent = ({ apiClient, customer, setCustomer }) => {
 
@@ -49,7 +48,7 @@ const CustomerInfo: React.FunctionComponent = ({ customer }) => {
 
     return (
         <>
-            <Card className='ts--card' key={customer.id}>
+            <Card className='ts--card ts--card--customer' key={customer.id}>
                 <CardTitle>{customer.name}</CardTitle>
                 <CardBody>
                     {customer.street1} {customer.street2} <br />

@@ -58,3 +58,7 @@ body,
 .ts--cart--cart-checkout--btn {
   width: 100%;
 }
+
+.ts--card--customer {
+  margin-top: 16px;
+}
