@@ -35,13 +35,6 @@ const routes: AppRouteConfig[] = [
     title: 'PatternFly Seed | Main Dashboard',
   },
   {
-    component: Support,
-    exact: true,
-    label: 'Support',
-    path: '/support',
-    title: 'PatternFly Seed | Support Page',
-  },
-  {
     label: 'Settings',
     routes: [
       {
