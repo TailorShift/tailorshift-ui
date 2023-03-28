@@ -17,6 +17,11 @@ body,
   text-align: right;
 }
 
+.pf-m-toggle-group-container {
+  justify-content: flex-end;
+  background-color: transparent;
+}
+
 .ts--name--red {
   font-weight: bold;
   color: #EE0000;
@@ -49,10 +54,12 @@ body,
 
 .ts--cart--cart-summary {
   white-space: pre;
+  padding: 16px 0;
 }
 
 .ts--cart--cart-summary--total {
   font-weight: 900;
+  font-size: large;
 }
 
 .ts--cart--cart-checkout--btn {
