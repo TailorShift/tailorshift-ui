@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, List, ListItem, PageSection, Split, SplitItem, Title } from '@patternfly/react-core';
+import { Alert, Button, Divider, List, ListItem, PageSection, Split, SplitItem, Title } from '@patternfly/react-core';
 
 const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -9,7 +9,14 @@ const formatter = new Intl.NumberFormat('en-US', {
 });
 
 
-const Cart: React.FunctionComponent = ({ cartItems, setCartItems }) => {
+const Cart: React.FunctionComponent = ({ apiClient, cartItems, setCartItems, customerDiscount }) => {
+
+    const [error, setError] = React.useState<Response | null>();
+
+    const subtotal = cartItems.reduce((acc, item) => acc + item.product.price, 0)
+    const tax = cartItems.reduce((acc, item) => acc + (item.product.price * item.product.taxRate / 100), 0)
+    const discount = subtotal * customerDiscount / 100;
+    const total = subtotal - discount
 
     React.useEffect(() => {
         console.log(cartItems)
@@ -32,7 +39,9 @@ const Cart: React.FunctionComponent = ({ cartItems, setCartItems }) => {
             <br />
             {cartItems.length > 0 &&
                 <>
-                    <CartSummary items={cartItems} />
+                    <Divider />
+                    <Divider />
+                    <CartSummary items={cartItems} subtotal={subtotal} tax={tax} discount={discount} total={total} />
                     <Button
                         className='ts--cart--cart-checkout--btn'
                         variant="primary"
@@ -40,6 +49,8 @@ const Cart: React.FunctionComponent = ({ cartItems, setCartItems }) => {
                         onClick={() => { checkout() }}
                     >Checkout
                     </Button>
+
+                    {error && <Alert variant="danger" title={error.statusText} />}
                 </>
             }
 
@@ -69,15 +80,17 @@ const CartEntry: React.FunctionComponent = ({ item }) => {
     )
 }
 
-const CartSummary: React.FunctionComponent = ({ items }) => {
+const CartSummary: React.FunctionComponent = ({ items, subtotal, tax, discount, total }) => {
     return (
         <div className='ts--cart--cart-summary pf-u-text-align-right'>
-            Subtotal: <span>{formatter.format(items.reduce((acc, item) => acc + (item.product.price * (1 - item.product.taxRate / 100)), 0)).padStart(20)}</span>
+            Subtotal: <span>{formatter.format(subtotal).padStart(20)}</span>
             <br />
-            Tax: {formatter.format(items.reduce((acc, item) => acc + (item.product.price * item.product.taxRate / 100), 0)).padStart(20)}
+            incl. Tax: {formatter.format(tax).padStart(20)}
+            <br />
+            Discount: {formatter.format(discount == 0 ? discount : -discount).padStart(20)}
             <br />
             <span className='ts--cart--cart-summary--total'>
-                Total: {formatter.format(items.reduce((acc, item) => acc + item.product.price, 0)).padStart(20)}
+                Total: {formatter.format(total).padStart(20)}
             </span>
         </div>
     )
