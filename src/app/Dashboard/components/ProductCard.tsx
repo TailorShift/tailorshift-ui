@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardTitle, CardBody, CardFooter } from '@patternfly/react-core';
+import { Card, CardTitle, CardBody, CardFooter, Button } from '@patternfly/react-core';
 
 export const ProductCard: React.FunctionComponent = ({ product }) => {
     if (product.available.length > 0) {
@@ -11,7 +11,10 @@ export const ProductCard: React.FunctionComponent = ({ product }) => {
                     Size: {item.size} <br />
                     Available: {item.quantity}
                 </CardBody>
-                <CardFooter className='ts--card--price'>${product.price} (+{product.taxRate}%) </CardFooter>
+                <CardFooter className='ts--card--price'>
+                    <Button variant="secondary" isSmall>
+                        ${product.price} (+{product.taxRate}%)
+                    </Button></CardFooter>
             </Card>
         )
 
@@ -22,7 +25,11 @@ export const ProductCard: React.FunctionComponent = ({ product }) => {
             <CardBody>
                 <span className='ts--card--sold-out-text'>Sold out</span>
             </CardBody>
-            <CardFooter className='ts--card--price'>${product.price} (+{product.taxRate}%) </CardFooter>
+            <CardFooter className='ts--card--price'>
+                <Button variant="secondary" isSmall isDisabled>
+                    ${product.price} (+{product.taxRate}%)
+                </Button>
+            </CardFooter>
         </Card>
     }
 };

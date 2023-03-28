@@ -31,7 +31,7 @@ const ProductSearch: React.FunctionComponent = ({ apiClient, product, setProduct
             />
             {error && <Alert variant="danger" title={error.statusText} />}
 
-            <Gallery hasGutter>
+            <Gallery className='ts--card-gallery' hasGutter>
                 {product && <ProductCard product={product} />}
             </Gallery>
         </>

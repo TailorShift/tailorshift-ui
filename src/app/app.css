@@ -13,8 +13,11 @@ body,
   /* changes a <hr> color to lemonchiffon */
 }
 
+.ts--card-gallery {
+  margin-top: 16px;
+}
+
 .ts--card {
-  margin: 16px;
   max-width: 400px;
 }
 
