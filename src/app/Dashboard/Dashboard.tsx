@@ -3,10 +3,12 @@ import { Grid, GridItem, PageSection, Title } from '@patternfly/react-core';
 import { ProductSearch } from './components/ProductSearch';
 import { Cart } from './components/Cart';
 import { PosApi, Configuration } from '@app/api';
+import { CustomerPane } from './components/CustomerInfo';
 
 const Dashboard: React.FunctionComponent = () => {
   const [product, setProduct] = React.useState();
   const [cartItems, setCartItems] = React.useState([]);
+  const [customer, setCustomer] = React.useState();
 
   const configuration = new Configuration({ basePath: 'http://localhost:8080' })
   const apiClient = new PosApi(configuration);
@@ -21,7 +23,8 @@ const Dashboard: React.FunctionComponent = () => {
         <ProductSearch apiClient={apiClient} product={product} setProduct={setProduct} addCartItem={addCartItem}></ProductSearch>
       </GridItem>
       <GridItem span={4}>
-        <Cart cartItems={cartItems} setCartItems={setCartItems}></Cart>
+        <CustomerPane apiClient={apiClient} customer={customer} setCustomer={setCustomer}></CustomerPane>
+        <Cart apiClient={apiClient} cartItems={cartItems} setCartItems={setCartItems}></Cart>
       </GridItem>
     </Grid>
   </PageSection>
