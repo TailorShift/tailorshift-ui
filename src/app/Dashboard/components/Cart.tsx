@@ -9,7 +9,7 @@ const formatter = new Intl.NumberFormat('en-US', {
 });
 
 
-const Cart: React.FunctionComponent = ({ apiClient, cartItems, setCartItems, customerDiscount }) => {
+const Cart: React.FunctionComponent = ({ apiClient, cartItems, setCartItems, customer, reset }) => {
 
     const [error, setError] = React.useState<Response | null>();
 
@@ -21,6 +21,11 @@ const Cart: React.FunctionComponent = ({ apiClient, cartItems, setCartItems, cus
     React.useEffect(() => {
         console.log(cartItems)
     }, [cartItems])
+
+    React.useEffect(() => {
+        setCartItems([])
+    }, [reset])
+
 
     const checkout = () => {
         console.log()

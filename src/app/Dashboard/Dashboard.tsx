@@ -7,6 +7,7 @@ import { CustomerPane } from './components/CustomerPane';
 import { TimesIcon, TrashIcon } from '@patternfly/react-icons';
 
 const Dashboard: React.FunctionComponent = () => {
+  const [reset, doReset] = React.useState(0);
   const [product, setProduct] = React.useState();
   const [cartItems, setCartItems] = React.useState([]);
   const [customer, setCustomer] = React.useState();
@@ -18,15 +19,10 @@ const Dashboard: React.FunctionComponent = () => {
     setCartItems((cartItems) => [...cartItems, { product: product, type: type }])
   }
 
-  const reset = () => {
-    setCustomer(null);
-    setCartItems([]);
-  }
-
   const toolbarItems = (
     <React.Fragment>
       <ToolbarItem className='pf-u-text-align-right'>
-        <Button variant="plain" aria-label="sync" onClick={() => { reset() }}>
+        <Button variant="plain" aria-label="sync" onClick={() => { doReset(prev => prev + 1) }}>
           <TimesIcon /> Clear
         </Button>
       </ToolbarItem>
@@ -43,13 +39,13 @@ const Dashboard: React.FunctionComponent = () => {
 
     <Grid hasGutter>
       <GridItem span={7}>
-        <ProductSearch apiClient={apiClient} product={product} setProduct={setProduct} addCartItem={addCartItem}></ProductSearch>
+        <ProductSearch apiClient={apiClient} product={product} setProduct={setProduct} addCartItem={addCartItem} reset={reset}></ProductSearch>
       </GridItem>
       <GridItem span={2}>
-        <CustomerPane apiClient={apiClient} customer={customer} setCustomer={setCustomer}></CustomerPane>
+        <CustomerPane apiClient={apiClient} customer={customer} setCustomer={setCustomer} reset={reset}></CustomerPane>
       </GridItem>
       <GridItem span={3}>
-        <Cart apiClient={apiClient} cartItems={cartItems} setCartItems={setCartItems} customerDiscount={customer ? customer.discount : 0}></Cart>
+        <Cart apiClient={apiClient} cartItems={cartItems} setCartItems={setCartItems} customer={customer} reset={reset}></Cart>
       </GridItem>
     </Grid>
   </PageSection>

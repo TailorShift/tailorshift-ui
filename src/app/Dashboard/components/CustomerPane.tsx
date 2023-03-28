@@ -1,20 +1,28 @@
 import * as React from 'react';
 import { SearchInput, Alert, Gallery, Title, Card, CardTitle, CardBody } from '@patternfly/react-core';
 
-const CustomerPane: React.FunctionComponent = ({ apiClient, customer, setCustomer }) => {
+const CustomerPane: React.FunctionComponent = ({ apiClient, customer, setCustomer, reset }) => {
+
+    React.useEffect(() => {
+        setCustomer(null)
+    }, [reset])
 
     return (
         <>
             <Title headingLevel="h1" size="lg">Customer</Title>
-            <CustomerSearch apiClient={apiClient} customer={customer} setCustomer={setCustomer} />
+            <CustomerSearch apiClient={apiClient} customer={customer} setCustomer={setCustomer} reset={reset} />
             {customer && <CustomerInfo customer={customer} />}
         </>
     );
 }
 
-const CustomerSearch: React.FunctionComponent = ({ apiClient, customer, setCustomer }) => {
+const CustomerSearch: React.FunctionComponent = ({ apiClient, customer, setCustomer, reset }) => {
     const [customerId, setCustomerId] = React.useState();
     const [error, setError] = React.useState<Response | null>(null);
+
+    React.useEffect(() => {
+        setCustomerId('')
+    }, [reset])
 
     const onChange = (customerId: string) => {
         setCustomerId(customerId);

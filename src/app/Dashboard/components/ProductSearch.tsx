@@ -2,10 +2,15 @@ import * as React from 'react';
 import { SearchInput, Alert, Gallery, Title } from '@patternfly/react-core';
 import { ProductCard } from './ProductCard';
 
-const ProductSearch: React.FunctionComponent = ({ apiClient, product, setProduct, addCartItem }) => {
+const ProductSearch: React.FunctionComponent = ({ apiClient, product, setProduct, addCartItem, reset }) => {
 
     const [productId, setProductId] = React.useState('');
     const [error, setError] = React.useState<Response | null>(null);
+
+    React.useEffect(() => {
+        setProduct(null);
+        setProductId('');
+    }, [reset])
 
     const onChange = (productId: string) => {
         setProductId(productId);
