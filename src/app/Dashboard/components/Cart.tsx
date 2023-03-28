@@ -9,13 +9,13 @@ const formatter = new Intl.NumberFormat('en-US', {
 });
 
 
-const Cart: React.FunctionComponent = ({ apiClient, cartItems, setCartItems, customer, reset }) => {
+const Cart: React.FunctionComponent = ({ apiClient, cartItems, setCartItems, customer, addAlert, reset, doReset }) => {
 
     const [error, setError] = React.useState<Response | null>();
 
     const subtotal = cartItems.reduce((acc, item) => acc + item.product.price, 0)
     const tax = cartItems.reduce((acc, item) => acc + (item.product.price * item.product.taxRate / 100), 0)
-    const discount = subtotal * customerDiscount / 100;
+    const discount = customer != null ? subtotal * customer.discount / 100 : 0;
     const total = subtotal - discount
 
     React.useEffect(() => {
@@ -28,7 +28,37 @@ const Cart: React.FunctionComponent = ({ apiClient, cartItems, setCartItems, cus
 
 
     const checkout = () => {
-        console.log()
+        setError(null);
+
+        const receipt = {
+            customerId: customer ? customer.id : null,
+            employeeId: 1, // TODO
+            deliveryShopId: null,
+            discountTotal: discount,
+            taxTotal: tax,
+            amountTotal: total,
+            positions: cartItems.map((item, i) => {
+                return {
+                    productId: item.product.id,
+                    position: i + 1,
+                    size: item.type.size,
+                    color: item.type.color,
+                    quantity: 1, // TODO
+                    returnedQuantity: 0,
+                    price: item.product.price,
+                    discount: 0,
+                    taxRate: item.product.taxRate
+                }
+            })
+        }
+
+        apiClient.createReceipt(receipt)
+            .then((res) => res.json())
+            .then((data) => {
+                addAlert(`Receipt ${data.id} created successfully`, 'success', new Date().getTime())
+                doReset();
+            })
+            .catch((error) => setError(error));
     }
 
     return (
