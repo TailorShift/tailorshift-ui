@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { SearchInput, Alert, Gallery } from '@patternfly/react-core';
+import { SearchInput, Alert, Gallery, Title } from '@patternfly/react-core';
 import { ProductCard } from './ProductCard';
 
-const ProductSearch: React.FunctionComponent = ({ apiClient, product, setProduct }) => {
+const ProductSearch: React.FunctionComponent = ({ apiClient, product, setProduct, addCartItem }) => {
     const BASE_URL = 'http://localhost:8080';
     const [productId, setProductId] = React.useState('');
     const [error, setError] = React.useState<Response | null>(null);
@@ -22,6 +22,7 @@ const ProductSearch: React.FunctionComponent = ({ apiClient, product, setProduct
 
     return (
         <>
+            <Title headingLevel="h1" size="lg">Add products</Title>
             <SearchInput
                 placeholder="Find by ID"
                 value={productId}
@@ -32,7 +33,7 @@ const ProductSearch: React.FunctionComponent = ({ apiClient, product, setProduct
             {error && <Alert variant="danger" title={error.statusText} />}
 
             <Gallery className='ts--card-gallery' hasGutter>
-                {product && <ProductCard product={product} />}
+                {product && <ProductCard product={product} addCartItem={addCartItem} />}
             </Gallery>
         </>
     );

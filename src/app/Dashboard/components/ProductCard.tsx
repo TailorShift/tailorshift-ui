@@ -1,10 +1,14 @@
 import React from 'react';
 import { Card, CardTitle, CardBody, CardFooter, Button } from '@patternfly/react-core';
 
-export const ProductCard: React.FunctionComponent = ({ product }) => {
+interface ProductCardProps {
+    product: Record
+    addCartItem: Function
+}
+export const ProductCard: React.FunctionComponent<ProductCardProps> = ({ product, addCartItem }) => {
     if (product.available.length > 0) {
         return product.available.map(item =>
-            <Card className='ts--card' key={1}>
+            <Card className='ts--card' key={item.color + item.size + item.quantity}>
                 <CardTitle>{product.name} ({product.manufacturer})</CardTitle>
                 <CardBody>
                     Color: {item.color} <br />
@@ -12,7 +16,7 @@ export const ProductCard: React.FunctionComponent = ({ product }) => {
                     Available: {item.quantity}
                 </CardBody>
                 <CardFooter className='ts--card--price'>
-                    <Button variant="secondary" isSmall>
+                    <Button variant="secondary" isSmall onClick={() => { addCartItem(product, item) }}>
                         ${product.price} (+{product.taxRate}%)
                     </Button></CardFooter>
             </Card>

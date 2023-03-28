@@ -1,21 +1,29 @@
 import * as React from 'react';
-import { PageSection, Title } from '@patternfly/react-core';
+import { Grid, GridItem, PageSection, Title } from '@patternfly/react-core';
 import { ProductSearch } from './components/ProductSearch';
 import { Cart } from './components/Cart';
 import { PosApi, Configuration } from '@app/api';
 
 const Dashboard: React.FunctionComponent = () => {
   const [product, setProduct] = React.useState();
+  const [cartItems, setCartItems] = React.useState([]);
 
   const configuration = new Configuration({ basePath: 'http://localhost:8080' })
   const apiClient = new PosApi(configuration);
 
+  const addCartItem = (product, type) => {
+    setCartItems((cartItems) => [...cartItems, { product: product, type: type }])
+  }
 
   return <PageSection>
-    <Title headingLevel="h1" size="lg">Add products</Title>
-    <ProductSearch apiClient={apiClient} product={product} setProduct={setProduct}></ProductSearch>
-
-    <Cart></Cart>
+    <Grid hasGutter>
+      <GridItem span={8}>
+        <ProductSearch apiClient={apiClient} product={product} setProduct={setProduct} addCartItem={addCartItem}></ProductSearch>
+      </GridItem>
+      <GridItem span={4}>
+        <Cart cartItems={cartItems} setCartItems={setCartItems}></Cart>
+      </GridItem>
+    </Grid>
   </PageSection>
 }
 
