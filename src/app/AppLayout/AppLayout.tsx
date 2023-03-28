@@ -32,18 +32,13 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
   };
 
   function LogoImg() {
-    const history = useHistory();
-    function handleClick() {
-      history.push('/');
-    }
-    return (
-      <img src={logo} onClick={handleClick} alt="PatternFly Logo" />
-    );
+    return <p>Tailor<span className='ts--name--red'>Shift</span></p>
   }
 
   const Header = (
     <PageHeader
       logo={<LogoImg />}
+      logoComponent={'div'}
       showNavToggle
       isNavOpen={isNavOpen}
       onNavToggle={isMobileView ? onNavToggleMobile : onNavToggle}

@@ -17,6 +17,11 @@ body,
   text-align: right;
 }
 
+.ts--name--red {
+  font-weight: bold;
+  color: #EE0000;
+}
+
 .ts--card-gallery {
   margin-top: 16px;
 }
