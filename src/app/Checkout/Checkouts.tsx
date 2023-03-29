@@ -5,9 +5,11 @@ import { Cart } from './components/Cart';
 import { PosApi, Configuration } from '@app/api';
 import { CustomerPane } from './components/CustomerPane';
 import { TimesIcon, TrashIcon } from '@patternfly/react-icons';
+import { EmployeeCheckin } from '@app/EmployeeCheckin';
 
 const Checkout: React.FunctionComponent = () => {
   const [reset, doReset] = React.useState(0);
+  const [employee, setEmployee] = React.useState();
   const [product, setProduct] = React.useState();
   const [cartItems, setCartItems] = React.useState([]);
   const [customer, setCustomer] = React.useState();
@@ -21,7 +23,7 @@ const Checkout: React.FunctionComponent = () => {
     setAlerts(prevAlerts => [...prevAlerts.filter(alert => alert.key !== key)]);
   };
 
-  const configuration = new Configuration({ basePath: 'http://localhost:8080' })
+  const configuration = new Configuration({ basePath: process.env.PROXY_HOST_URL })
   const apiClient = new PosApi(configuration);
 
   const addCartItem = (product, type) => {

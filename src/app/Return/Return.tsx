@@ -20,7 +20,7 @@ const Return: React.FunctionComponent = () => {
     setAlerts(prevAlerts => [...prevAlerts.filter(alert => alert.key !== key)]);
   };
 
-  const configuration = new Configuration({ basePath: 'http://localhost:8080' })
+  const configuration = new Configuration({ basePath: process.env.PROXY_HOST_URL })
   const apiClient = new PosApi(configuration);
 
   const addCartItem = (product, type) => {
