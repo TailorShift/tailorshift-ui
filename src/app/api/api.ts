@@ -171,10 +171,10 @@ export interface Customer {
 export interface EmployeeTag {
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof EmployeeTag
      */
-    tagId: string;
+    cardId: number;
 }
 /**
  * 
@@ -254,6 +254,18 @@ export interface NewReceipt {
      * @memberof NewReceipt
      */
     discountTotal: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof NewReceipt
+     */
+    amountTotal: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof NewReceipt
+     */
+    taxTotal: number;
     /**
      * 
      * @type {Array<ReceiptPosition>}
@@ -424,19 +436,14 @@ export const PosApiFetchParamCreator = function (configuration?: Configuration) 
         /**
          * 
          * @summary Authorize an existing employee by his/her badge/tag/...
-         * @param {EmployeeTag} body 
-         * @param {string} tagId 
+         * @param {number} cardId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        authorizeEmployee(body: EmployeeTag, tagId: string, options: any = {}): FetchArgs {
-            // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body', 'Required parameter body was null or undefined when calling authorizeEmployee.');
-            }
-            // verify required parameter 'tagId' is not null or undefined
-            if (tagId === null || tagId === undefined) {
-                throw new RequiredError('tagId', 'Required parameter tagId was null or undefined when calling authorizeEmployee.');
+        authorizeEmployee(cardId: number, options: any = {}): FetchArgs {
+            // verify required parameter 'cardId' is not null or undefined
+            if (cardId === null || cardId === undefined) {
+                throw new RequiredError('cardId', 'Required parameter cardId was null or undefined when calling authorizeEmployee.');
             }
             const localVarPath = `/pos/authorize-employee`;
             const localVarUrlObj = url.parse(localVarPath, true);
@@ -445,21 +452,17 @@ export const PosApiFetchParamCreator = function (configuration?: Configuration) 
             const localVarQueryParameter = {} as any;
             const localVarFormParams = new URLSearchParams();
 
-            if (tagId !== undefined) {
-                localVarFormParams.set('tagId', tagId as any);
+            if (cardId !== undefined) {
+                localVarFormParams.set('card-id', cardId as any);
             }
 
             localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
-
-            localVarHeaderParameter['Content-Type'] = 'application/json';
 
             localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
             delete localVarUrlObj.search;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
             localVarRequestOptions.body = localVarFormParams.toString();
-            const needsSerialization = (<any>"EmployeeTag" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.body = needsSerialization ? JSON.stringify(body || {}) : (body || "");
 
             return {
                 url: url.format(localVarUrlObj),
@@ -635,13 +638,12 @@ export const PosApiFp = function (configuration?: Configuration) {
         /**
          * 
          * @summary Authorize an existing employee by his/her badge/tag/...
-         * @param {EmployeeTag} body 
-         * @param {string} tagId 
+         * @param {number} cardId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        authorizeEmployee(body: EmployeeTag, tagId: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Response> {
-            const localVarFetchArgs = PosApiFetchParamCreator(configuration).authorizeEmployee(body, tagId, options);
+        authorizeEmployee(cardId: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Response> {
+            const localVarFetchArgs = PosApiFetchParamCreator(configuration).authorizeEmployee(cardId, options);
             return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -760,13 +762,12 @@ export const PosApiFactory = function (configuration?: Configuration, fetch?: Fe
         /**
          * 
          * @summary Authorize an existing employee by his/her badge/tag/...
-         * @param {EmployeeTag} body 
-         * @param {string} tagId 
+         * @param {number} cardId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        authorizeEmployee(body: EmployeeTag, tagId: string, options?: any) {
-            return PosApiFp(configuration).authorizeEmployee(body, tagId, options)(fetch, basePath);
+        authorizeEmployee(cardId: number, options?: any) {
+            return PosApiFp(configuration).authorizeEmployee(cardId, options)(fetch, basePath);
         },
         /**
          * 
@@ -832,14 +833,13 @@ export class PosApi extends BaseAPI {
     /**
      * 
      * @summary Authorize an existing employee by his/her badge/tag/...
-     * @param {EmployeeTag} body 
-     * @param {string} tagId 
+     * @param {number} cardId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PosApi
      */
-    public authorizeEmployee(body: EmployeeTag, tagId: string, options?: any) {
-        return PosApiFp(this.configuration).authorizeEmployee(body, tagId, options)(this.fetch, this.basePath);
+    public authorizeEmployee(cardId: number, options?: any) {
+        return PosApiFp(this.configuration).authorizeEmployee(cardId, options)(this.fetch, this.basePath);
     }
 
     /**

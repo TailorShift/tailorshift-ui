@@ -30,6 +30,9 @@ const Checkout: React.FunctionComponent = () => {
 
   const toolbarItems = (
     <React.Fragment>
+      <ToolbarItem>
+        <h1> {employee ? 'Welcome, ' + employee.name : ''}</h1>
+      </ToolbarItem>
       <ToolbarItem className='pf-u-text-align-right'>
         <Button variant="plain" aria-label="sync" onClick={() => { doReset(prev => prev + 1) }}>
           <TimesIcon /> Clear
@@ -57,6 +60,7 @@ const Checkout: React.FunctionComponent = () => {
       ))}
     </AlertGroup>
 
+    <EmployeeCheckin apiClient={apiClient} employee={employee} setEmployee={setEmployee}></EmployeeCheckin>
     <Toolbar
       className="pf-m-toggle-group-container"
       collapseListedFiltersBreakpoint="xl"
@@ -72,7 +76,7 @@ const Checkout: React.FunctionComponent = () => {
         <CustomerPane apiClient={apiClient} customer={customer} setCustomer={setCustomer} reset={reset}></CustomerPane>
       </GridItem>
       <GridItem span={3}>
-        <Cart apiClient={apiClient} cartItems={cartItems} setCartItems={setCartItems} customer={customer} addAlert={addAlert} reset={reset} doReset={doReset}></Cart>
+        <Cart apiClient={apiClient} cartItems={cartItems} setCartItems={setCartItems} customer={customer} employee={employee} addAlert={addAlert} reset={reset} doReset={doReset}></Cart>
       </GridItem>
     </Grid>
   </PageSection>

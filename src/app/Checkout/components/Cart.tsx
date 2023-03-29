@@ -9,7 +9,7 @@ const formatter = new Intl.NumberFormat('en-US', {
 });
 
 
-const Cart: React.FunctionComponent = ({ apiClient, cartItems, setCartItems, customer, addAlert, reset, doReset }) => {
+const Cart: React.FunctionComponent = ({ apiClient, cartItems, setCartItems, customer, employee, addAlert, reset, doReset }) => {
 
     const [error, setError] = React.useState<Response | null>();
 
@@ -32,7 +32,7 @@ const Cart: React.FunctionComponent = ({ apiClient, cartItems, setCartItems, cus
 
         const receipt = {
             customerId: customer ? customer.id : null,
-            employeeId: 1, // TODO
+            employeeId: employee.id,
             deliveryShopId: null,
             discountTotal: discount,
             taxTotal: tax,
