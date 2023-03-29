@@ -5,6 +5,7 @@ import { ProfileSettings } from '@app/Settings/Profile/ProfileSettings';
 import { NotFound } from '@app/NotFound/NotFound';
 import { useDocumentTitle } from '@app/utils/useDocumentTitle';
 import { Checkout } from './Checkout/Checkouts';
+import { Return } from './Return/Return';
 
 let routeFocusTimer: number;
 export interface IAppRoute {
@@ -34,23 +35,11 @@ const routes: AppRouteConfig[] = [
     title: 'Checkout',
   },
   {
-    label: 'Settings',
-    routes: [
-      {
-        component: GeneralSettings,
-        exact: true,
-        label: 'General',
-        path: '/settings/general',
-        title: 'PatternFly Seed | General Settings',
-      },
-      {
-        component: ProfileSettings,
-        exact: true,
-        label: 'Profile',
-        path: '/settings/profile',
-        title: 'PatternFly Seed | Profile Settings',
-      },
-    ],
+    component: Return,
+    exact: true,
+    label: 'Return',
+    path: '/return',
+    title: 'Return',
   },
 ];
 
