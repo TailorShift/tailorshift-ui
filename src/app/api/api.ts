@@ -577,7 +577,7 @@ export const PosApiFetchParamCreator = function (configuration?: Configuration) 
             if (customerId === null || customerId === undefined) {
                 throw new RequiredError('customerId', 'Required parameter customerId was null or undefined when calling getCustomerReceipts.');
             }
-            const localVarPath = `/pos/customer/{customerId}/receipts`
+            const localVarPath = `/pos/customers/{customerId}/receipts`
                 .replace(`{${"customerId"}}`, encodeURIComponent(String(customerId)));
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
