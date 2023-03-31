@@ -1,18 +1,62 @@
-# Patternfly Seed
+# TailorShift UI
 
-Patternfly Seed is an open source build scaffolding utility for web apps. The primary purpose of this project is to give developers a jump start when creating new projects that will use patternfly. A secondary purpose of this project is to serve as a reference for how to configure various aspects of an application that uses patternfly, webpack, react, typescript, etc.
+In this repository you can find the code for the TailorShift UI running on on the far-edge PoS device.
 
-Out of the box you'll get an app layout with chrome (header/sidebar), routing, build pipeline, test suite, and some code quality tools. Basically, all the essentials.
+It is built on top of [React](https://react.dev/) and is using **Red Hat**'s open source design system [PatternFly](https://www.patternfly.org/v4/)
 
-<img width="1058" alt="Out of box dashboard view of patternfly seed" src="https://user-images.githubusercontent.com/5942899/103803761-03a0a500-501f-11eb-870a-345d7d035e6b.png">
+
+The openAPI specification for the implemented API can be found in the [edgepos-manager](https://github.com/TailorShift/qiot-retail-edgepos-manager/blob/main/src/main/resources/openapi.yml).
+
+The UI service is available at [http://20.254.120.86:8080/](http://20.254.120.86:8080/)
+
+
+The UI offers 2 modes:
+
+### Cashier/checkout mode
+The cashier/checkout mode resembles a PoS cashier system: The cashier uses it in order to scan items (and the customer's loyality card if available) and shows the items in the cart. 
+
+At the end of the checkout process, the customer can pay and a receipt is created (in the backoffice single-node cluster).
+
+In order to use the cashier/checkout mode, the employee has to scan his/her badge in order to check in. Without checkin, the cashier mode is disabled. The checkin is authorizing the employee with the backend by sending a /pos/authorize-employee request.
+
+### Kiosk/customer mode
+The edge device is not just a simple point of sale. It can also offer customer-value service such as "what is the price of?" or "is this product available in other sizes / colors / stores?" features.
+
+Imagine new shop that offers only electronic payment: The device does no longer have to be in a dedicated " authorized-personnel-only" zone. Instead it could be placed or moved freely around in the shop. This allows making more efficient use of stores space. Furthermore it allows employees to get closer to the customer, increasing time available advising and engaging customers in a sale.
+
+The customer can use the UI to search for available products and he is even suggested products that aren't available in the current store, but in other stores.
+
+
+## Screenshots
+Employee Checkin
+![Employee Checkin](https://github.com/TailorShift/tailorshift-ui/blob/main/screenshots/checkout_1.png?raw=true)
+
+Employee scanned badge, employee was found in the DB and can now proceed to check in
+![Employee scanned badge, employee was found in the DB and can now proceed to check in](https://github.com/TailorShift/tailorshift-ui/blob/main/screenshots/checkout_2.png?raw=true)
+
+Employee scans products (and chooses the correct one from the list of available items for this ProductID (items with different sizes/colors have the same barcode/ID))
+![Employee scans products (and chooses the correct one from the list of available items for this ProductID (items with different sizes/colors have the same barcode/ID))](https://github.com/TailorShift/tailorshift-ui/blob/main/screenshots/checkout_3.png?raw=true)
+
+After all the items were scanned the customer can pay (checkout)
+![After all the items were scanned the customer can pay (checkout)](https://github.com/TailorShift/tailorshift-ui/blob/main/screenshots/checkout_4.png?raw=true)
+
+Checkout was successful, a receipt was created
+![Checkout was successful, a receipt was created](https://github.com/TailorShift/tailorshift-ui/blob/main/screenshots/checkout_5.png?raw=true)
+
+In the Kiosk mode, the customer can search for items in the current store and in other stores without the need for a employee checkin
+![In the Kiosk mode, the customer can search for items in the current store and in other stores without the need for a employee checkin](https://github.com/TailorShift/tailorshift-ui/blob/main/screenshots/kiosk_1.png?raw=true)
+
+For a true Kiosk mode experience, the sidebar can be hidden
+![For a true Kiosk mode experience, the sidebar can be hidden](https://github.com/TailorShift/tailorshift-ui/blob/main/screenshots/kiosk_2.png?raw=true)
 
 ## Quick-start
 
 ```bash
-git clone https://github.com/patternfly/patternfly-react-seed
-cd patternfly-react-seed
+git clone https://github.com/TailorShift/tailorshift-ui
+cd tailorshift-ui
 npm install && npm run start:dev
 ```
+
 ## Development scripts
 ```sh
 # Install development/build dependencies
@@ -48,62 +92,3 @@ npm run storybook
 # Build storybook component explorer as standalone app (outputs to "storybook-static" dir)
 npm run build:storybook
 ```
-
-## Configurations
-* [TypeScript Config](./tsconfig.json)
-* [Webpack Config](./webpack.common.js)
-* [Jest Config](./jest.config.js)
-* [Editor Config](./.editorconfig)
-
-## Raster image support
-
-To use an image asset that's shipped with PatternFly core, you'll prefix the paths with "@assets". `@assets` is an alias for the PatternFly assets directory in node_modules.
-
-For example:
-```js
-import imgSrc from '@assets/images/g_sizing.png';
-<img src={imgSrc} alt="Some image" />
-```
-
-You can use a similar technique to import assets from your local app, just prefix the paths with "@app". `@app` is an alias for the main src/app directory.
-
-```js
-import loader from '@app/assets/images/loader.gif';
-<img src={loader} alt="Content loading />
-```
-
-## Vector image support
-Inlining SVG in the app's markup is also possible.
-
-```js
-import logo from '@app/assets/images/logo.svg';
-<span dangerouslySetInnerHTML={{__html: logo}} />
-```
-
-You can also use SVG when applying background images with CSS. To do this, your SVG's must live under a `bgimages` directory (this directory name is configurable in [webpack.common.js](./webpack.common.js#L5)). This is necessary because you may need to use SVG's in several other context (inline images, fonts, icons, etc.) and so we need to be able to differentiate between these usages so the appropriate loader is invoked.
-```css
-body {
-  background: url(./assets/bgimages/img_avatar.svg);
-}
-```
-
-## Adding custom CSS
-When importing CSS from a third-party package for the first time, you may encounter the error `Module parse failed: Unexpected token... You may need an appropriate loader to handle this file typ...`. You need to register the path to the stylesheet directory in [stylePaths.js](./stylePaths.js). We specify these explicity for performance reasons to avoid webpack needing to crawl through the entire node_modules directory when parsing CSS modules.
-
-## Code quality tools
-* For accessibility compliance, we use [react-axe](https://github.com/dequelabs/react-axe)
-* To keep our bundle size in check, we use [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer)
-* To keep our code formatting in check, we use [prettier](https://github.com/prettier/prettier)
-* To keep our code logic and test coverage in check, we use [jest](https://github.com/facebook/jest)
-* To ensure code styles remain consistent, we use [eslint](https://eslint.org/)
-* To provide a place to showcase custom components, we integrate with [storybook](https://storybook.js.org/)
-
-## Multi environment configuration
-This project uses [dotenv-webpack](https://www.npmjs.com/package/dotenv-webpack) for exposing environment variables to your code. Either export them at the system level like `export MY_ENV_VAR=http://dev.myendpoint.com && npm run start:dev` or simply drop a `.env` file in the root that contains your key-value pairs like below:
-
-```sh
-ENV_1=http://1.myendpoint.com
-ENV_2=http://2.myendpoint.com
-```
-
-With that in place, you can use the values in your code like `console.log(process.env.ENV_1);`
