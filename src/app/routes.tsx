@@ -1,11 +1,9 @@
 import * as React from 'react';
 import { Route, RouteComponentProps, Switch, useLocation } from 'react-router-dom';
-import { GeneralSettings } from '@app/Settings/General/GeneralSettings';
-import { ProfileSettings } from '@app/Settings/Profile/ProfileSettings';
 import { NotFound } from '@app/NotFound/NotFound';
 import { useDocumentTitle } from '@app/utils/useDocumentTitle';
 import { Checkout } from './Checkout/Checkouts';
-import { Return } from './Return/Return';
+import { Kiosk, Return } from './Return/Kiosk';
 
 let routeFocusTimer: number;
 export interface IAppRoute {
@@ -35,11 +33,11 @@ const routes: AppRouteConfig[] = [
     title: 'Checkout',
   },
   {
-    component: Return,
+    component: Kiosk,
     exact: true,
-    label: 'Return',
-    path: '/return',
-    title: 'Return',
+    label: 'Kiosk',
+    path: '/kiosk',
+    title: 'Kiosk',
   },
 ];
 

@@ -79,7 +79,7 @@ const Checkout: React.FunctionComponent = () => {
 
     <Grid hasGutter>
       <GridItem span={7}>
-        <ProductSearch apiClient={apiClient} title={"Add products"} allShops={true} product={product} setProduct={setProduct} addCartItem={addCartItem} disabled={employee == null} reset={reset}></ProductSearch>
+        <ProductSearch apiClient={apiClient} title={"Add products"} allShops={false} product={product} setProduct={setProduct} addCartItem={addCartItem} disabled={employee == null} reset={reset}></ProductSearch>
       </GridItem>
       <GridItem span={2}>
         <CustomerPane apiClient={apiClient} customer={customer} setCustomer={setCustomer} disabled={employee == null} reset={reset}></CustomerPane>

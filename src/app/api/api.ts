@@ -601,10 +601,11 @@ export const PosApiFetchParamCreator = function (configuration?: Configuration) 
          * 
          * @summary Get product information for a specific product
          * @param {string} productId Retrieve the information for product with productId
+         * @param {boolean} [allShops] Whether search is performed on current shop only or in other shops too
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getProduct(productId: string, options: any = {}): FetchArgs {
+        getProduct(productId: string, allShops?: boolean, options: any = {}): FetchArgs {
             // verify required parameter 'productId' is not null or undefined
             if (productId === null || productId === undefined) {
                 throw new RequiredError('productId', 'Required parameter productId was null or undefined when calling getProduct.');
@@ -615,6 +616,10 @@ export const PosApiFetchParamCreator = function (configuration?: Configuration) 
             const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            if (allShops !== undefined) {
+                localVarQueryParameter['allShops'] = allShops;
+            }
 
             localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
@@ -735,11 +740,12 @@ export const PosApiFp = function (configuration?: Configuration) {
          * 
          * @summary Get product information for a specific product
          * @param {string} productId Retrieve the information for product with productId
+         * @param {boolean} [allShops] Whether search is performed on current shop only or in other shops too
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getProduct(productId: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Product> {
-            const localVarFetchArgs = PosApiFetchParamCreator(configuration).getProduct(productId, options);
+        getProduct(productId: string, allShops?: boolean, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Product> {
+            const localVarFetchArgs = PosApiFetchParamCreator(configuration).getProduct(productId, allShops, options);
             return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -814,11 +820,12 @@ export const PosApiFactory = function (configuration?: Configuration, fetch?: Fe
          * 
          * @summary Get product information for a specific product
          * @param {string} productId Retrieve the information for product with productId
+         * @param {boolean} [allShops] Whether search is performed on current shop only or in other shops too
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getProduct(productId: string, options?: any) {
-            return PosApiFp(configuration).getProduct(productId, options)(fetch, basePath);
+        getProduct(productId: string, allShops?: boolean, options?: any) {
+            return PosApiFp(configuration).getProduct(productId, allShops, options)(fetch, basePath);
         },
     };
 };
@@ -895,12 +902,13 @@ export class PosApi extends BaseAPI {
      * 
      * @summary Get product information for a specific product
      * @param {string} productId Retrieve the information for product with productId
+     * @param {boolean} [allShops] Whether search is performed on current shop only or in other shops too
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PosApi
      */
-    public getProduct(productId: string, options?: any) {
-        return PosApiFp(this.configuration).getProduct(productId, options)(this.fetch, this.basePath);
+    public getProduct(productId: string, allShops?: boolean, options?: any) {
+        return PosApiFp(this.configuration).getProduct(productId, allShops, options)(this.fetch, this.basePath);
     }
 
 }

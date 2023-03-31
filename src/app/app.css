@@ -69,3 +69,12 @@ body,
 .ts--card--customer {
   margin-top: 16px;
 }
+
+
+.in-store-availability {
+  color: green;
+}
+
+.other-store-availability {
+  color: red;
+}

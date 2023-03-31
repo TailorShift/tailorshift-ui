@@ -3,13 +3,11 @@ import { Alert, AlertActionCloseButton, AlertGroup, AlertProps, AlertVariant, Bu
 import { PosApi, Configuration } from '@app/api';
 import { TimesIcon } from '@patternfly/react-icons';
 import { ReceiptsPane } from './components/ReceiptsPane';
-import { CustomerPane } from '@app/Checkout/components/CustomerPane';
+import { ProductSearch } from '@app/Checkout/components/ProductSearch';
 
-const Return: React.FunctionComponent = () => {
+const Kiosk: React.FunctionComponent = () => {
   const [reset, doReset] = React.useState(0);
   const [product, setProduct] = React.useState();
-  const [receipts, setReceipts] = React.useState([]);
-  const [customer, setCustomer] = React.useState();
   const [alerts, setAlerts] = React.useState<Partial<AlertProps>[]>([]);
 
   const addAlert = (title: string, variant: AlertProps['variant'], key: React.Key) => {
@@ -64,17 +62,12 @@ const Return: React.FunctionComponent = () => {
     </Toolbar>
 
     <Grid hasGutter>
-      <GridItem span={2}>
-        <CustomerPane apiClient={apiClient} customer={customer} setCustomer={setCustomer} reset={reset}></CustomerPane>
+      <GridItem span={12}>
+        <ProductSearch apiClient={apiClient} title={"Search product"} allShops={true} product={product} setProduct={setProduct} reset={reset}></ProductSearch>
       </GridItem>
-
-      <GridItem span={4}>
-        <ReceiptsPane apiClient={apiClient} receipts={receipts} setReceipts={setReceipts} customer={customer} reset={reset}></ReceiptsPane>
-      </GridItem>
-
     </Grid>
   </PageSection>
 
 }
 
-export { Return };
+export { Kiosk };

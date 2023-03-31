@@ -2,7 +2,7 @@ import * as React from 'react';
 import { SearchInput, Alert, Gallery, Title } from '@patternfly/react-core';
 import { ProductCard } from './ProductCard';
 
-const ProductSearch: React.FunctionComponent = ({ apiClient, product, setProduct, addCartItem, reset }) => {
+const ProductSearch: React.FunctionComponent = ({ apiClient, title, allShops = false, product, setProduct, addCartItem, disabled = false, reset }) => {
 
     const [productId, setProductId] = React.useState('');
     const [error, setError] = React.useState<Response | null>(null);
@@ -20,15 +20,16 @@ const ProductSearch: React.FunctionComponent = ({ apiClient, product, setProduct
         setError(null);
         setProduct(null);
 
-        apiClient.getProduct(productId)
+        apiClient.getProduct(productId, allShops)
             .then((product) => setProduct(product))
             .catch((error) => setError(error));
     }
 
     return (
         <>
-            <Title headingLevel="h1" size="lg">Add products</Title>
+            <Title headingLevel="h1" size="lg">{title}</Title>
             <SearchInput
+                isDisabled={disabled}
                 placeholder="Scan products"
                 value={productId}
                 onChange={(value, _event) => onChange(value)}
@@ -38,7 +39,7 @@ const ProductSearch: React.FunctionComponent = ({ apiClient, product, setProduct
             {error && <Alert variant="danger" title={error.statusText} />}
 
             <Gallery className='ts--card-gallery' hasGutter>
-                {product && <ProductCard product={product} addCartItem={addCartItem} />}
+                {product && <ProductCard product={product} addCartItem={addCartItem} allShops={allShops} />}
             </Gallery>
         </>
     );
