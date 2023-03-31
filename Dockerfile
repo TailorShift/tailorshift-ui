@@ -2,7 +2,10 @@
 FROM registry.access.redhat.com/ubi8/nodejs-16:latest
 
 ARG PROXY_HOST_URL=http://20.254.120.86:9090
+ARG SHOP_ID=1
+
 ENV PROXY_HOST_URL=${PROXY_HOST_URL}
+ENV SHOP_ID=${SHOP_ID}
 
 # Copy package.json and package-lock.json
 COPY ./package*.json ./
