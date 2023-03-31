@@ -14,6 +14,7 @@ const Checkout: React.FunctionComponent = () => {
   const [cartItems, setCartItems] = React.useState([]);
   const [customer, setCustomer] = React.useState();
   const [alerts, setAlerts] = React.useState<Partial<AlertProps>[]>([]);
+  const [showCheckinModal, setShowCheckinModal] = React.useState(true);
 
   const addAlert = (title: string, variant: AlertProps['variant'], key: React.Key) => {
     setAlerts(prevAlerts => [...prevAlerts, { title, variant, key }]);
@@ -33,7 +34,13 @@ const Checkout: React.FunctionComponent = () => {
   const toolbarItems = (
     <React.Fragment>
       <ToolbarItem>
-        <h1> {employee ? 'Welcome, ' + employee.name : ''}</h1>
+        {employee != null ?
+          <h1>Welcome, {employee.name}</h1> :
+          <Button variant="danger" isSmall onClick={() => { setShowCheckinModal(true) }}>
+            Cashier check in
+          </Button>
+        }
+
       </ToolbarItem>
       <ToolbarItem className='pf-u-text-align-right'>
         <Button variant="plain" aria-label="sync" onClick={() => { doReset(prev => prev + 1) }}>
@@ -62,7 +69,7 @@ const Checkout: React.FunctionComponent = () => {
       ))}
     </AlertGroup>
 
-    <EmployeeCheckin apiClient={apiClient} employee={employee} setEmployee={setEmployee}></EmployeeCheckin>
+    <EmployeeCheckin apiClient={apiClient} showCheckinModal={showCheckinModal} setShowCheckinModal={setShowCheckinModal} employee={employee} setEmployee={setEmployee}></EmployeeCheckin>
     <Toolbar
       className="pf-m-toggle-group-container"
       collapseListedFiltersBreakpoint="xl"
@@ -72,10 +79,10 @@ const Checkout: React.FunctionComponent = () => {
 
     <Grid hasGutter>
       <GridItem span={7}>
-        <ProductSearch apiClient={apiClient} product={product} setProduct={setProduct} addCartItem={addCartItem} reset={reset}></ProductSearch>
+        <ProductSearch apiClient={apiClient} title={"Add products"} allShops={true} product={product} setProduct={setProduct} addCartItem={addCartItem} disabled={employee == null} reset={reset}></ProductSearch>
       </GridItem>
       <GridItem span={2}>
-        <CustomerPane apiClient={apiClient} customer={customer} setCustomer={setCustomer} reset={reset}></CustomerPane>
+        <CustomerPane apiClient={apiClient} customer={customer} setCustomer={setCustomer} disabled={employee == null} reset={reset}></CustomerPane>
       </GridItem>
       <GridItem span={3}>
         <Cart apiClient={apiClient} cartItems={cartItems} setCartItems={setCartItems} customer={customer} employee={employee} addAlert={addAlert} reset={reset} doReset={doReset}></Cart>

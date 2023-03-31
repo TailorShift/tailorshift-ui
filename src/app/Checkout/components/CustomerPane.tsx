@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { SearchInput, Alert, Gallery, Title, Card, CardTitle, CardBody } from '@patternfly/react-core';
+import { SearchInput, Alert, Gallery, Title, Card, CardTitle, CardBody, TextInput } from '@patternfly/react-core';
 
-const CustomerPane: React.FunctionComponent = ({ apiClient, customer, setCustomer, reset }) => {
+const CustomerPane: React.FunctionComponent = ({ apiClient, customer, setCustomer, disabled, reset }) => {
 
     React.useEffect(() => {
         setCustomer(null)
@@ -10,13 +10,13 @@ const CustomerPane: React.FunctionComponent = ({ apiClient, customer, setCustome
     return (
         <>
             <Title headingLevel="h1" size="lg">Customer</Title>
-            <CustomerSearch apiClient={apiClient} customer={customer} setCustomer={setCustomer} reset={reset} />
+            <CustomerSearch apiClient={apiClient} customer={customer} setCustomer={setCustomer} disabled={disabled} reset={reset} />
             {customer && <CustomerInfo customer={customer} />}
         </>
     );
 }
 
-const CustomerSearch: React.FunctionComponent = ({ apiClient, customer, setCustomer, reset }) => {
+const CustomerSearch: React.FunctionComponent = ({ apiClient, customer, setCustomer, disabled, reset }) => {
     const [customerId, setCustomerId] = React.useState();
     const [error, setError] = React.useState<Response | null>(null);
 
@@ -40,6 +40,8 @@ const CustomerSearch: React.FunctionComponent = ({ apiClient, customer, setCusto
     return (
         <>
             <SearchInput
+                aria-label='disabled'
+                isDisabled={disabled}
                 placeholder="Scan customer card"
                 value={customerId}
                 onChange={(value, _event) => onChange(value)}

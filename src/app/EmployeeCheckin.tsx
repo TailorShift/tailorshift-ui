@@ -1,15 +1,14 @@
 import * as React from 'react';
 import { Alert, Button, Card, CardBody, CardTitle, Modal, ModalVariant, SearchInput } from '@patternfly/react-core';
 
-const EmployeeCheckin: React.FunctionComponent = ({ apiClient, employee, setEmployee }) => {
-    const [isModalOpen, setModalOpen] = React.useState(employee == null);
-    const [reset, doReset] = React.useState(0);
+const EmployeeCheckin: React.FunctionComponent = ({ apiClient, showCheckinModal, setShowCheckinModal, employee, setEmployee }) => {
     const [loadedEmployee, setLoadedEmployee] = React.useState();
     const [loadedEmployeeId, setLoadedEmployeeId] = React.useState('');
     const [error, setError] = React.useState<Response | null>(null);
 
     const checkIn = () => {
         setEmployee(loadedEmployee);
+        setShowCheckinModal(false);
     };
 
     const searchEmployee = (cardId) => {
@@ -26,12 +25,16 @@ const EmployeeCheckin: React.FunctionComponent = ({ apiClient, employee, setEmpl
         <Modal
             variant={ModalVariant.small}
             title="Employee Checkin"
-            description="Scan your employee badge in order to checkin."
-            isOpen={employee == null}
+            description="Scan your employee badge in order to checkin. Unless you aren't checked in, you can't use the checkout functionality."
+            isOpen={showCheckinModal}
             showClose={false}
             actions={[
                 <Button key="create" variant="primary" form="modal-with-form-form" isDisabled={loadedEmployee == null} onClick={checkIn}>
                     Check in
+                </Button>,
+
+                <Button key="cancel" variant="tertiary" onClick={() => { setShowCheckinModal(false) }}>
+                    Cancel
                 </Button>
             ]}
         >
