@@ -1,7 +1,7 @@
 # Install the application dependencies in a full UBI Node docker image
 FROM registry.access.redhat.com/ubi8/nodejs-16:latest
 
-ARG PROXY_HOST_URL=http://localhost:8080
+ARG PROXY_HOST_URL=http://20.254.120.86:9090
 ENV PROXY_HOST_URL=${PROXY_HOST_URL}
 
 # Copy package.json and package-lock.json
