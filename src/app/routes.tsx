@@ -3,7 +3,7 @@ import { Route, RouteComponentProps, Switch, useLocation } from 'react-router-do
 import { NotFound } from '@app/NotFound/NotFound';
 import { useDocumentTitle } from '@app/utils/useDocumentTitle';
 import { Checkout } from './Checkout/Checkouts';
-import { Kiosk, Return } from './Return/Kiosk';
+import { Kiosk } from './Kiosk/Kiosk';
 
 let routeFocusTimer: number;
 export interface IAppRoute {
